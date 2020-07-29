@@ -6,6 +6,7 @@ public enum TokenType {
     VARIABLE,
     OPERATOR,
     BRACKET,
+    INTEGER,
     STRING,
     FLOAT,
     BOOLEAN
