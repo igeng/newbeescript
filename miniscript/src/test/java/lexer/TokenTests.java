@@ -27,4 +27,62 @@ public class TokenTests {
         assertEquals(value, token.getValue());
     }
 
+    @Test
+    public void test_makeString() throws LexicalException {
+        String[] tests = {
+                "\"123\"",
+                "\'123\'"
+        };
+
+        for (String test:tests) {
+            var it = new PeekIterator<Character>(test.chars().mapToObj(x -> (char)x));
+            var token = Token.makeString(it);
+            assertToken(token, test, TokenType.STRING);
+        }
+    }
+
+    @Test
+    public void test_makeOperator() throws LexicalException {
+        String[] tests = {
+                "+ xxx",
+                "++mmm",
+                "/=g",
+                "==1",
+                "&=3982",
+                "&777",
+                "||xxx",
+                "^=111",
+                "%7"
+        };
+
+        String[] results = {"+", "++", "/=", "==", "&=", "&", "||", "^=", "%"};
+
+        int i = 0;
+        for (String test:tests) {
+            var it = new PeekIterator<Character>(test.chars().mapToObj(x -> (char)x));
+            var token = Token.makeOp(it);
+            assertToken(token, results[i ++], TokenType.OPERATOR);
+        }
+    }
+
+    @Test
+    public void test_makeNumber() throws LexicalException {
+        String[] tests = {
+                "+0 aa",
+                "-0 aa",
+                ".3 ccc",
+                ".5555 ddd",
+                "7789.8888 ooo",
+                "-1000.123123*123123",
+        };
+
+        for (String test:tests) {
+            var it = new PeekIterator<Character>(test.chars().mapToObj(x -> (char)x));
+            var token = Token.makeNumber(it);
+            var splitValue = test.split("[* ]+");
+            assertToken(token, splitValue[0],
+                    (test.indexOf('.') != -1) ? TokenType.FLOAT : TokenType.INTEGER);
+        }
+    }
+
 }
