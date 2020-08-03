@@ -343,12 +343,9 @@ public class Token {
                     else {
                         return new Token(TokenType.FLOAT, s);
                     }
-
             }// end switch
-
             it.next();
             s += lookahead;
-
         }// end while
         throw new LexicalException("Unexpected error");
     }
