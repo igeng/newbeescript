@@ -2,7 +2,6 @@ package lexer;
 
 import common.AlphabetHelper;
 import common.PeekIterator;
-
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
@@ -71,25 +70,21 @@ public class Lexer {
                 tokens.add(Token.makeNumber(it));
                 continue;
             }
-
             // + - .
             // +-: 3+5, +5, 3 * -5
             if ((c == '+' || c =='-' || c =='.') && AlphabetHelper.isNumber(lookahead)) {
                 var lastToken = tokens.size() == 0 ? null : tokens.get(tokens.size() - 1);
-
                 if (lastToken == null || !lastToken.isNumber() || lastToken.isOperator()) {
                     it.putBack();
                     tokens.add(Token.makeNumber((it)));
                     continue;
                 }
             }
-
             if (AlphabetHelper.isOperator(c)) {
                 it.putBack();
                 tokens.add(Token.makeOp(it));
                 continue;
             }
-
             throw new LexicalException(c);
         }// end while
         return tokens;

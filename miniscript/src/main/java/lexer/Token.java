@@ -352,7 +352,6 @@ public class Token {
 
     public boolean isNumber() {
         return this._type == TokenType.INTEGER || this._type == TokenType.FLOAT;
-
     }
 
 

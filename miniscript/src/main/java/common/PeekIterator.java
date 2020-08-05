@@ -49,7 +49,6 @@ public class PeekIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-
         T val = null;
         if (this.stackPutBacks.size() > 0) {
             val = this.stackPutBacks.pop();
@@ -62,7 +61,6 @@ public class PeekIterator<T> implements Iterator<T> {
             val = it.next();
         }
         while(queueCache.size() > CACHE_SIZE - 1) {
-
             // 出队
             queueCache.poll();
         }
